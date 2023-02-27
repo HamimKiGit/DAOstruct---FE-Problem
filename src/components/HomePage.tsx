@@ -2,14 +2,17 @@ import React from 'react'
 import { Breadcrumb, Layout, Menu, Spin, Space, Col, Row, Image, Typography } from 'antd';
 import ApiService from '../utils/ApiService';
 import { PlanetaryResponse } from '../context/interfaces';
+import HomePageSlider from './row/HomePageSlider';
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const { Title, Paragraph, Text, Link } = Typography;
 
 const HomePage = () => {
+    const perChunk = 7 // items per chunk    
 
     const [state, setState] = React.useState<Array<PlanetaryResponse>>([])
+    const [result, setResult] = React.useState<Array<Array<PlanetaryResponse>>>([])
     const [ellipsis, setEllipsis] = React.useState(false)
     const [loading, setLoading] = React.useState(false)
     const uRLSearchParams = new URLSearchParams()
@@ -29,6 +32,25 @@ const HomePage = () => {
             setLoading(false)
         }
     }
+
+    const intialiseGroup = () => {
+        const result = state.reduce((resultArray: Array<any>, item, index) => {
+            const chunkIndex = Math.floor(index / perChunk)
+
+            if (!resultArray[chunkIndex]) {
+                resultArray[chunkIndex] = [] // start a new chunk
+            }
+
+            resultArray[chunkIndex].push(item)
+
+            return resultArray
+        }, [])
+        setResult(result)
+    }
+
+    React.useEffect(() => {
+        intialiseGroup()
+    }, [state])
 
     React.useEffect(() => {
         initialise()
@@ -63,6 +85,13 @@ const HomePage = () => {
                             />
                         </Col>
                     </>}
+
+
+                <Col span={24}>
+                    {result.map((res, index) =>
+                        <HomePageSlider key={`key_${index}`} data={res} />
+                    )}
+                </Col>
             </Row>
         </Spin>
     </Content>

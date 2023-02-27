@@ -18,6 +18,8 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
+    "react-slick": "^0.29.0",
+    "slick-carousel": "^1.8.1",
     "superagent": "^8.0.9",
     "superagent-promise": "^1.1.0",
     "typescript": "^4.9.5",
@@ -48,6 +50,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-router-dom": "^5.3.3"
+    "@types/react-router-dom": "^5.3.3",
+    "@types/react-slick": "^0.23.10"
   }
 }
